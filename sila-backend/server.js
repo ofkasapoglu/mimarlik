@@ -51,3 +51,8 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+// Root route - tarayıcıda direkt erişimde çalışacak
+app.get('/', (req, res) => {
+  res.send('Backend çalışıyor! Hoşgeldin 😎');
+});
