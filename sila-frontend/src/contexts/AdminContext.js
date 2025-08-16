@@ -32,7 +32,7 @@ export const AdminProvider = ({ children }) => {
       }
 
       console.log('Checking admin status...');
-      const response = await axios.get('http://localhost:5000/api/auth/check-admin', {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/auth/check-admin`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
