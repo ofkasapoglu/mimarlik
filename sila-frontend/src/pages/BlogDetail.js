@@ -4,7 +4,6 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../contexts/AuthContext';
 import ReactMarkdown from 'react-markdown';
-import config from '../config/config';
 
 const BlogDetail = () => {
   const [blog, setBlog] = useState(null);
@@ -20,7 +19,7 @@ const BlogDetail = () => {
 
   const fetchBlog = async () => {
     try {
-      const response = await axios.get(`${config.apiBaseURL}/blogs/${id}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/blogs/${id}`);
       setBlog(response.data);
     } catch (error) {
       toast.error('Blog yazısı yüklenirken bir hata oluştu');
@@ -37,7 +36,7 @@ const BlogDetail = () => {
     }
 
     try {
-      const response = await axios.post(`${config.apiBaseURL}/blogs/${id}/like`);
+      const response = await axios.post(`http://localhost:5000/api/blogs/${id}/like`);
       setBlog(response.data);
     } catch (error) {
       toast.error('Beğeni işlemi başarısız oldu');
@@ -53,7 +52,7 @@ const BlogDetail = () => {
 
     try {
       console.log('Yorum gönderiliyor:', { blogId: id, text: comment });
-      const response = await axios.post(`${config.apiBaseURL}/blogs/${id}/comments`, {
+      const response = await axios.post(`http://localhost:5000/api/blogs/${id}/comments`, {
         text: comment
       });
       console.log('Yorum başarıyla eklendi:', response.data);
@@ -72,7 +71,7 @@ const BlogDetail = () => {
     }
 
     try {
-      await axios.delete(`${config.apiBaseURL}/blogs/${id}`);
+      await axios.delete(`http://localhost:5000/api/blogs/${id}`);
       toast.success('Blog yazısı silindi');
       navigate('/');
     } catch (error) {
