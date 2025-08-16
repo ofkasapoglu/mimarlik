@@ -29,7 +29,7 @@ const AboutManagement = () => {
   const fetchAboutData = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/admin/about', {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/admin/about`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.data) {
@@ -66,7 +66,7 @@ const AboutManagement = () => {
     setSaving(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.put('http://localhost:5000/api/admin/about', aboutData, {
+      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/admin/about`, aboutData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Hakkımızda sayfası başarıyla güncellendi');

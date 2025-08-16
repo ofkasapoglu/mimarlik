@@ -21,7 +21,7 @@ const Profile = () => {
 
   const fetchProfile = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/auth/me');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/auth/me`);
       setProfile(response.data);
       setFormData({
         username: response.data.username,
@@ -39,7 +39,7 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put('http://localhost:5000/api/auth/profile', formData);
+      const response = await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/auth/profile`, formData);
       setProfile(response.data);
       setEditing(false);
       toast.success('Profil güncellendi');

@@ -16,7 +16,7 @@ const CommentManagement = () => {
   const fetchComments = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/admin/comments', {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/admin/comments`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log('Comments response:', response.data);
@@ -32,7 +32,7 @@ const CommentManagement = () => {
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/admin/comments/${id}`, {
+      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/admin/comments/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       message.success('Yorum başarıyla silindi');

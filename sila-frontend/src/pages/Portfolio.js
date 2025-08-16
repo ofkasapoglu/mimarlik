@@ -25,7 +25,7 @@ const Portfolio = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/portfolio');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/portfolio`);
       console.log('Frontend received projects:', response.data);
       response.data.forEach(project => {
         console.log('Project in frontend:', {

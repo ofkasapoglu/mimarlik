@@ -36,7 +36,7 @@ const BlogDetail = () => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:5000/api/blogs/${id}/like`);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/blogs/${id}/like`);
       setBlog(response.data);
     } catch (error) {
       toast.error('Beğeni işlemi başarısız oldu');
@@ -52,7 +52,7 @@ const BlogDetail = () => {
 
     try {
       console.log('Yorum gönderiliyor:', { blogId: id, text: comment });
-      const response = await axios.post(`http://localhost:5000/api/blogs/${id}/comments`, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/blogs/${id}/comments`, {
         text: comment
       });
       console.log('Yorum başarıyla eklendi:', response.data);
@@ -71,7 +71,7 @@ const BlogDetail = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:5000/api/blogs/${id}`);
+      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/blogs/${id}`);
       toast.success('Blog yazısı silindi');
       navigate('/');
     } catch (error) {

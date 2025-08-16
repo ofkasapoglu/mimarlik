@@ -62,7 +62,7 @@ const PortfolioDetail = () => {
 
   const fetchProject = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/portfolio/${id}`);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/portfolio/${id}`);
       const projectData = response.data;
       
       // Teknolojileri string'e çevir
@@ -160,7 +160,7 @@ const PortfolioDetail = () => {
         throw new Error('Token bulunamadı');
       }
 
-      const response = await axios.post('http://localhost:5000/api/upload', formData, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/upload`, formData, {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -211,14 +211,14 @@ const PortfolioDetail = () => {
       };
 
       if (isCreateMode) {
-        await axios.post('http://localhost:5000/api/portfolio', formData, {
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/portfolio`, formData, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
         });
         toast.success('Proje başarıyla oluşturuldu');
       } else if (isEditMode) {
-        await axios.put(`http://localhost:5000/api/portfolio/${id}`, formData, {
+        await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/portfolio/${id}`, formData, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -243,7 +243,7 @@ const PortfolioDetail = () => {
 
     if (window.confirm('Bu projeyi silmek istediğinizden emin misiniz?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/portfolio/${id}`, {
+        await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/portfolio/${id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }

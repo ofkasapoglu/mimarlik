@@ -22,7 +22,7 @@ const BlogManagement = () => {
   const fetchBlogs = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/admin/blogs', {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/admin/blogs`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setBlogs(response.data);
@@ -37,7 +37,7 @@ const BlogManagement = () => {
   const handleDelete = async (id) => {
   try {
     const token = localStorage.getItem('token');
-    await axios.delete(`http://localhost:5000/api/blogs/${id}`, {
+    await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/blogs/${id}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     message.success('Blog yazısı başarıyla silindi');
@@ -56,7 +56,7 @@ const BlogManagement = () => {
   const handleCreate = async (values) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post('http://localhost:5000/api/blogs', {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/blogs`, {
         title: values.title,
         content: values.content,
         image: values.image

@@ -15,7 +15,7 @@ const PortfolioManagement = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/portfolio');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/portfolio`);
       setProjects(response.data);
     } catch (error) {
       console.error('Fetch projects error:', error);
@@ -31,7 +31,7 @@ const PortfolioManagement = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:5000/api/portfolio/${id}`, {
+      await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/portfolio/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -46,7 +46,7 @@ const PortfolioManagement = () => {
 
   const toggleFeatured = async (id, currentFeatured) => {
     try {
-      await axios.put(`http://localhost:5000/api/portfolio/${id}`, {
+      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/portfolio/${id}`, {
         featured: !currentFeatured
       }, {
         headers: {

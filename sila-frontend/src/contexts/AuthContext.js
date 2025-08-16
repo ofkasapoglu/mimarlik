@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
   const fetchUser = async () => {
     try {
       console.log('Fetching user profile...');
-      const response = await axios.get('http://localhost:5000/api/auth/me');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/auth/me`);
       console.log('Profile response:', response.data);
       setUser(response.data);
     } catch (error) {
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       console.log('Login attempt with:', { email });
-      const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/login`, { email, password });
       console.log('Login response:', response.data);
       
       const { token, user } = response.data;
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (username, email, password) => {
     try {
       console.log('Register attempt with:', { username, email });
-      const response = await axios.post('http://localhost:5000/api/auth/register', {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/register`, {
         username,
         email,
         password,

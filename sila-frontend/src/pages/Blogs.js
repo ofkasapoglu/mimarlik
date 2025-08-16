@@ -13,7 +13,7 @@ const Blogs = () => {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/blogs');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/blogs`);
       setBlogs(response.data);
     } catch (error) {
       message.error('Blog yazıları yüklenirken bir hata oluştu');

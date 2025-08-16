@@ -15,7 +15,7 @@ const Home = () => {
 
   const fetchBlogs = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/blogs');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/blogs`);
       // Son 3 blogu al
       const latestBlogs = response.data.slice(0, 3);
       setBlogs(latestBlogs);
@@ -26,7 +26,7 @@ const Home = () => {
 
   const fetchProjects = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/portfolio');
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/portfolio`);
       // Son 3 projeyi al
       const latestProjects = response.data.slice(0, 3);
       setProjects(latestProjects);
