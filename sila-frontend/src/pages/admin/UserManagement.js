@@ -32,7 +32,7 @@ const UserManagement = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/admin/users', {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/admin/users`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -50,7 +50,7 @@ const UserManagement = () => {
     try {
       console.log('Changing role for user:', userId, 'to:', newRole);
       const response = await axios.put(
-        `http://localhost:5000/api/users/${userId}/role`,
+        `${process.env.REACT_APP_BACKEND_URL}/api/users/${userId}/role`,
         { role: newRole },
         {
           headers: {
@@ -70,7 +70,7 @@ const UserManagement = () => {
   const handleDelete = async (userId) => {
     if (window.confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/admin/users/${userId}`, {
+        await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/admin/users/${userId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -106,7 +106,7 @@ const UserManagement = () => {
 
       console.log('Sending portfolio data:', formData);
 
-      const response = await axios.post('http://localhost:5000/api/portfolio', formData, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/portfolio`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
