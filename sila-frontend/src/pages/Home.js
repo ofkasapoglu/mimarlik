@@ -9,37 +9,29 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchBlogs();
-    fetchProjects();
+    fetchData();
   }, []);
 
-  const fetchBlogs = async () => {
+  const fetchData = async () => {
     try {
-      const response = await axios.get('https://mimarlik-1.onrender.com/api/blogs');
-      // Son 3 blogu al
-      const latestBlogs = response.data.slice(0, 3);
-      setBlogs(latestBlogs);
-    } catch (error) {
-      toast.error('Blog yazıları yüklenirken bir hata oluştu');
-    }
-  };
+      const [blogsRes, projectsRes] = await Promise.all([
+        axios.get('https://mimarlik-1.onrender.com/api/blogs'),
+        axios.get('https://mimarlik-1.onrender.com/api/portfolio'),
+      ]);
 
-  const fetchProjects = async () => {
-    try {
-      const response = await axios.get('https://mimarlik-1.onrender.com/api/portfolio');
-      // Son 3 projeyi al
-      const latestProjects = response.data.slice(0, 3);
-      setProjects(latestProjects);
+      setBlogs(blogsRes.data.slice(0, 3));
+      setProjects(projectsRes.data.slice(0, 3));
     } catch (error) {
-      toast.error('Projeler yüklenirken bir hata oluştu');
+      console.error(error);
+      toast.error('Veriler yüklenirken bir hata oluştu');
     } finally {
-      setLoading(false);
+      setLoading(false); // Loading her durumda kapanacak
     }
   };
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
+      <div className="flex justify-center items-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
       </div>
     );
@@ -57,15 +49,16 @@ const Home = () => {
                 className="h-48 w-full object-cover md:w-48"
                 src="/logoo.jpg"
                 alt="Profil"
+                onError={(e) => { e.target.src = 'https://via.placeholder.com/200x200?text=Profil'; }}
               />
             </div>
             <div className="p-8">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Merhaba, Ben Ceyhun Uzun</h2>
               <p className="text-gray-600 text-lg mb-4">
                 Mimar olarak, estetik ve işlevselliği bir araya getirerek yaşam alanlarını dönüştürüyorum.
-                 Tasarımlarımda, kullanıcı deneyimini ön planda tutarken, çağdaş mimari yaklaşımları sürdürülebilir
-                  çözümlerle harmanlıyorum. Konut, ofis, ticari yapı ve iç mekan projelerinde,
-                   özgünlük ve detaylara verdiğim önemle fark yaratmayı hedefliyorum.
+                Tasarımlarımda, kullanıcı deneyimini ön planda tutarken, çağdaş mimari yaklaşımları sürdürülebilir
+                çözümlerle harmanlıyorum. Konut, ofis, ticari yapı ve iç mekan projelerinde,
+                özgünlük ve detaylara verdiğim önemle fark yaratmayı hedefliyorum.
               </p>
             </div>
           </div>
@@ -95,6 +88,7 @@ const Home = () => {
                   src={project.image || 'https://via.placeholder.com/400x300?text=Proje+Görseli'}
                   alt={project.title}
                   className="w-full h-full object-cover"
+                  onError={(e) => { e.target.src = 'https://via.placeholder.com/400x300?text=Proje+Görseli'; }}
                 />
                 {project.featured && (
                   <span className="absolute top-2 right-2 bg-yellow-400 text-black px-2 py-1 rounded-full text-sm">
@@ -140,9 +134,10 @@ const Home = () => {
             >
               {blog.image && (
                 <img
-                  src={blog.image}
+                  src={blog.image || 'https://via.placeholder.com/400x300?text=Blog+Görseli'}
                   alt={blog.title}
                   className="w-full h-48 object-cover"
+                  onError={(e) => { e.target.src = 'https://via.placeholder.com/400x300?text=Blog+Görseli'; }}
                 />
               )}
               <div className="p-6">
@@ -159,43 +154,7 @@ const Home = () => {
                 </p>
                 <div className="flex items-center justify-between text-sm text-gray-500">
                   <span>{blog.author.username}</span>
-                  <span>
-                    {new Date(blog.createdAt).toLocaleDateString('tr-TR')}
-                  </span>
-                </div>
-                <div className="mt-4 flex items-center space-x-4">
-                  <span className="flex items-center text-gray-500">
-                    <svg
-                      className="w-5 h-5 mr-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                      />
-                    </svg>
-                    {blog.likes.length}
-                  </span>
-                  <span className="flex items-center text-gray-500">
-                    <svg
-                      className="w-5 h-5 mr-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                      />
-                    </svg>
-                    {blog.comments.length}
-                  </span>
+                  <span>{new Date(blog.createdAt).toLocaleDateString('tr-TR')}</span>
                 </div>
               </div>
             </article>
@@ -206,4 +165,4 @@ const Home = () => {
   );
 };
 
-export default Home; 
+export default Home;
