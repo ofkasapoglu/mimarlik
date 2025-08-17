@@ -134,52 +134,8 @@ const BlogDetail = () => {
             <ReactMarkdown>{blog.content}</ReactMarkdown>
           </div>
 
-          <div className="flex items-center space-x-4 mb-8">
-            <button
-              onClick={handleLike}
-              className={`flex items-center space-x-2 ${
-                user && blog.likes.includes(user.id)
-                  ? 'text-red-600'
-                  : 'text-gray-500'
-              }`}
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                />
-              </svg>
-              <span>{blog.likes.length} Beğeni</span>
-            </button>
-          </div>
+         
 
-          <div className="border-t pt-8">
-            <h2 className="text-2xl font-bold mb-4">Yorumlar</h2>
-            {user && (
-              <form onSubmit={handleComment} className="mb-8">
-                <textarea
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder="Yorumunuzu yazın..."
-                  className="w-full p-4 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  rows="3"
-                  required
-                ></textarea>
-                <button
-                  type="submit"
-                  className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                >
-                  Yorum Yap
-                </button>
-              </form>
-            )}
 
             <div className="space-y-4">
               {blog.comments.map((comment) => (
@@ -198,7 +154,7 @@ const BlogDetail = () => {
               ))}
             </div>
           </div>
-        </div>
+        
       </article>
     </div>
   );
