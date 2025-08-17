@@ -4,14 +4,12 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const Home = () => {
-  const [blogs, setBlogs] = useState([]);
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchProjects();
   }, []);
-
 
   const fetchProjects = async () => {
     try {
@@ -52,9 +50,9 @@ const Home = () => {
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Merhaba, Ben Ceyhun Uzun</h2>
               <p className="text-gray-600 text-lg mb-4">
                 Mimar olarak, estetik ve işlevselliği bir araya getirerek yaşam alanlarını dönüştürüyorum.
-                 Tasarımlarımda, kullanıcı deneyimini ön planda tutarken, çağdaş mimari yaklaşımları sürdürülebilir
-                  çözümlerle harmanlıyorum. Konut, ofis, ticari yapı ve iç mekan projelerinde,
-                   özgünlük ve detaylara verdiğim önemle fark yaratmayı hedefliyorum.
+                Tasarımlarımda, kullanıcı deneyimini ön planda tutarken, çağdaş mimari yaklaşımları sürdürülebilir
+                çözümlerle harmanlıyorum. Konut, ofis, ticari yapı ve iç mekan projelerinde,
+                özgünlük ve detaylara verdiğim önemle fark yaratmayı hedefliyorum.
               </p>
             </div>
           </div>
@@ -109,10 +107,8 @@ const Home = () => {
           ))}
         </div>
       </section>
-
-
     </div>
   );
 };
 
-export default Home; 
+export default Home;
