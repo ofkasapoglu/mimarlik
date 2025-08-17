@@ -511,10 +511,10 @@ const PortfolioDetail = () => {
                 required
               >
                 <option value="">Seçiniz</option>
-                <option value="Web">Web Geliştirme</option>
-                <option value="Mobile">Mobil Uygulama</option>
-                <option value="Desktop">Masaüstü Uygulama</option>
-                <option value="AI">Yapay Zeka</option>
+                <option value="Web">Kültür</option>
+                <option value="Mobile">Eğitim</option>
+                <option value="Desktop">Kentsel Tasarım</option>
+                <option value="AI">Dini</option>
                 <option value="Other">Diğer</option>
               </select>
             </div>

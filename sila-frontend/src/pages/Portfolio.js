@@ -12,10 +12,10 @@ const Portfolio = () => {
 
   const categories = [
     { id: 'all', name: 'Tümü' },
-    { id: 'Web', name: 'Web' },
-    { id: 'Mobile', name: 'Mobile' },
-    { id: 'AI', name: 'AI' },
-    { id: 'Desktop', name: 'Desktop' },
+    { id: 'Web', name: 'Kültür' },
+    { id: 'Mobile', name: 'Eğitim' },
+    { id: 'AI', name: 'Kentsel Tasarım' },
+    { id: 'Desktop', name: 'Dini' },
     { id: 'Other', name: 'Diğer' }
   ];
 
