@@ -9,7 +9,6 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchBlogs();
     fetchProjects();
   }, []);
 
