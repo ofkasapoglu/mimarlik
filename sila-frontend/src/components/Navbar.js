@@ -57,8 +57,9 @@ const Navbar = () => {
     <nav className="bg-white shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="text-xl font-bold text-gray-800">
-            Ceyhun Uzun Mimarlık
+          <Link to="/" className="flex items-center space-x-2 text-xl font-bold text-gray-800">
+            <img src="/logoo.jpg" alt="Logo" className="w-10 h-10 rounded-full object-cover border border-gray-300 bg-white" />
+            <span>Ceyhun Uzun Mimarlık</span>
           </Link>
 
           {/* Desktop Navigation */}
