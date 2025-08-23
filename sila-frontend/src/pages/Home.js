@@ -65,7 +65,7 @@ const Home = () => {
           <h2 className="text-3xl font-bold text-gray-900">Son Projeler</h2>
           <Link
             to="/portfolio"
-            className="text-blue-600 hover:text-blue-800 font-medium"
+            className="text-black-600 hover:text-black-800 font-medium"
           >
             Tüm Projeleri Gör →
           </Link>

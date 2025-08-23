@@ -87,12 +87,6 @@ const PortfolioDetail = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Dosya boyutu kontrolü (5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error('Dosya boyutu 5MB\'dan küçük olmalıdır');
-        return;
-      }
-
       // Dosya tipi kontrolü
       if (!file.type.startsWith('image/')) {
         toast.error('Sadece resim dosyaları yükleyebilirsiniz');
@@ -100,7 +94,7 @@ const PortfolioDetail = () => {
       }
 
       setSelectedFile(file);
-      
+
       // Preview oluştur
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -116,12 +110,8 @@ const PortfolioDetail = () => {
 
     // Basit validasyonlar
     const validFiles = files.filter((file) => {
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error(`${file.name}: Dosya boyutu 5MB'dan küçük olmalıdır`);
-        return false;
-      }
       if (!file.type.startsWith('image/')) {
-        toast.error(`${file.name}: Sadece resim dosyaları yükleyebilirsiniz`);
+        toast.error(`${file.name}: Sadece resim dosyası yükleyebilirsiniz`);
         return false;
       }
       return true;
@@ -154,19 +144,17 @@ const PortfolioDetail = () => {
 
     try {
       console.log('Uploading file:', file.name, file.size, file.type);
-      
       const token = localStorage.getItem('token');
       if (!token) {
         throw new Error('Token bulunamadı');
       }
-
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/upload`, formData, {
         headers: {
           Authorization: `Bearer ${token}`
         },
-        timeout: 30000 // 30 saniye timeout
+        timeout: 30000, // 30 saniye timeout
+  // Progress bar kaldırıldı
       });
-      
       console.log('Upload response:', response.data);
       return response.data.imageUrl;
     } catch (error) {
@@ -200,7 +188,7 @@ const PortfolioDetail = () => {
 
       let imageUrl = project.image;
       if (selectedFile) {
-        imageUrl = await uploadImage(selectedFile);
+  imageUrl = await uploadImage(selectedFile);
       }
 
       const formData = {
@@ -429,7 +417,6 @@ const PortfolioDetail = () => {
                   Maksimum dosya boyutu: 5MB. Desteklenen formatlar: JPG, PNG, GIF
                 </p>
               </div>
-              
               {/* Görsel Önizleme */}
               {imagePreview && (
                 <div className="mt-4">
