@@ -9,7 +9,7 @@ const PortfolioDetail = () => {
     title: '',
     description: '',
     category: '',
-    technologies: '',
+  // ...existing code...
     image: '',
     images: [],
     featured: false
@@ -65,14 +65,8 @@ const PortfolioDetail = () => {
       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/portfolio/${id}`);
       const projectData = response.data;
       
-      // Teknolojileri string'e çevir
-      const technologiesString = Array.isArray(projectData.technologies) 
-        ? projectData.technologies.join(', ')
-        : projectData.technologies;
-
       setProject({
-        ...projectData,
-        technologies: technologiesString
+        ...projectData
       });
       
       // Mevcut görsel varsa preview'a ekle
@@ -194,7 +188,7 @@ const PortfolioDetail = () => {
       const formData = {
         ...project,
         image: imageUrl,
-        technologies: project.technologies.split(',').map(tech => tech.trim()),
+  // ...existing code...
         images: project.images || []
       };
 
@@ -279,16 +273,7 @@ const PortfolioDetail = () => {
                 <p className="text-gray-800 whitespace-pre-line leading-7">{project.description}</p>
               </div>
 
-              <div>
-                <h3 className="text-lg font-semibold mb-2">Kullanılan Teknolojiler</h3>
-                <div className="flex flex-wrap gap-2">
-                  {Array.isArray(project.technologies) ? project.technologies.map((tech, index) => (
-                    <span key={index} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
-                      {tech}
-                    </span>
-                  )) : null}
-                </div>
-              </div>
+              {/* ...existing code... */}
 
               <div className="flex gap-4">
                 {project.demoUrl && (
@@ -313,14 +298,7 @@ const PortfolioDetail = () => {
                 )}
               </div>
 
-              <div className="flex justify-end">
-                <button
-                  onClick={() => navigate('/portfolio')}
-                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-                >
-                  Geri Dön
-                </button>
-              </div>
+              {/* ...Geri Dön butonu kaldırıldı... */}
 
               {Array.isArray(project.images) && project.images.length > 0 && (
                 <div>
@@ -506,17 +484,7 @@ const PortfolioDetail = () => {
               </select>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Teknolojiler (virgülle ayırın)</label>
-              <input
-                type="text"
-                value={project.technologies}
-                onChange={(e) => setProject({...project, technologies: e.target.value})}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                required
-                placeholder="React, Node.js, MongoDB"
-              />
-            </div>
+            {/* ...existing code... */}
 
             <div className="flex items-center">
               <input

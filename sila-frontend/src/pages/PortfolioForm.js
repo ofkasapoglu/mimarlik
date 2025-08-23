@@ -7,7 +7,7 @@ const PortfolioForm = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    technologies: '',
+  // ...existing code...
     category: '',
     images: '',
     demoUrl: '',
@@ -47,7 +47,7 @@ const PortfolioForm = () => {
       const project = response.data;
       setFormData({
         ...project,
-        technologies: project.technologies.join(', '),
+  // ...existing code...
         images: project.images.join('\n')
       });
     } catch (error) {
@@ -71,7 +71,7 @@ const PortfolioForm = () => {
     try {
       const projectData = {
         ...formData,
-        technologies: formData.technologies.split(',').map(tech => tech.trim()),
+  // ...existing code...
         images: formData.images.split('\n').map(url => url.trim()).filter(url => url)
       };
 
@@ -145,20 +145,7 @@ const PortfolioForm = () => {
             />
           </div>
 
-          {/* Teknolojiler */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Teknolojiler (virgülle ayırın)
-            </label>
-            <input
-              type="text"
-              name="technologies"
-              value={formData.technologies}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+          {/* ...existing code... */}
 
           {/* Kategori */}
           <div>

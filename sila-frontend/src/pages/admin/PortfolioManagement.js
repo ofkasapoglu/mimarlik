@@ -224,9 +224,7 @@ const PortfolioManagement = () => {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Kategori
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Teknolojiler
-                  </th>
+                  {/* ...existing code... */}
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Durum
                   </th>
@@ -260,23 +258,7 @@ const PortfolioManagement = () => {
                         {project.category}
                       </span>
                     </td>
-                    <td className="px-6 py-4">
-                      <div className="flex flex-wrap gap-1">
-                        {project.technologies.slice(0, 3).map((tech, index) => (
-                          <span
-                            key={index}
-                            className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                        {project.technologies.length > 3 && (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
-                            +{project.technologies.length - 3}
-                          </span>
-                        )}
-                      </div>
-                    </td>
+                    {/* ...existing code... */}
                     <td className="px-6 py-4 whitespace-nowrap">
                       <button
                         onClick={() => toggleFeatured(project._id, project.featured)}
