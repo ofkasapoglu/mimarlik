@@ -20,6 +20,8 @@ app.use('/api/blogs', require('./routes/blog.routes'));
 app.use('/api/portfolio', require('./routes/portfolio.routes'));
 app.use('/api/visitor', require('./routes/visitor.routes'));
 app.use('/api/upload', require('./routes/upload.routes'));
+app.use('/api/about', require('./routes/about.routes'));
+
 
 // MongoDB bağlantısı
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/sila-blog')

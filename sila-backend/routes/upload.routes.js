@@ -44,7 +44,7 @@ const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 5 * 1024 * 1024 // 5MB limit
+    fileSize: 100 * 1024 * 1024 // 100MB limit
   }
 });
 
@@ -56,6 +56,14 @@ router.get('/test', (req, res) => {
 // Auth test endpoint'i
 router.get('/auth-test', authMiddleware, (req, res) => {
   res.json({ message: 'Auth is working!', user: req.user.username });
+});
+
+// Tüm upload isteklerini logla (her POST isteğinde çalışır)
+router.use((req, res, next) => {
+  if (req.method === 'POST') {
+    console.log('UPLOAD ROUTE: POST isteği alındı, path:', req.path);
+  }
+  next();
 });
 
 // Dosya yükleme endpoint'i - sadece auth middleware kullan
