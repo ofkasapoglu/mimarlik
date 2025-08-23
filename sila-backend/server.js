@@ -12,6 +12,7 @@ const blogRoutes = require('./routes/blog.routes');
 const adminRoutes = require('./routes/admin.routes');
 const portfolioRoutes = require('./routes/portfolio.routes');
 const uploadRoutes = require('./routes/upload.routes');
+const aboutRoutes = require('./routes/about.routes');
 
 // JWT Secret key
 process.env.JWT_SECRET = 'sila-blog-secret-key-2024';
@@ -32,6 +33,7 @@ app.use('/api/blogs', blogRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/about', aboutRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/sila-blog', {
