@@ -29,11 +29,20 @@ const AboutManagement = () => {
   const fetchAboutData = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/admin/about`, {
+  const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/about`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.data) {
-        setAboutData(response.data);
+        // contactInfo eksikse varsayılan boş nesne ata
+        setAboutData({
+          ...response.data,
+          contactInfo: response.data.contactInfo || {
+            address: '',
+            phone: '',
+            email: '',
+            workingHours: ''
+          }
+        });
       }
     } catch (error) {
       console.error('Fetch about data error:', error);
@@ -66,7 +75,7 @@ const AboutManagement = () => {
     setSaving(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/admin/about`, aboutData, {
+  await axios.put(`${process.env.REACT_APP_BACKEND_URL}/api/about`, aboutData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success('Hakkımızda sayfası başarıyla güncellendi');
