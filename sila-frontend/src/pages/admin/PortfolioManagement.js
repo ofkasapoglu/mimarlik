@@ -61,12 +61,20 @@ const PortfolioManagement = () => {
     }
   };
 
-  const categories = ['Tümü', ...new Set(projects.map(project => project.category))];
+  const categoryMap = {
+    Web: 'Kültür',
+    Mobile: 'Eğitim',
+    AI: 'Kentsel Tasarım',
+    Desktop: 'Dini',
+    Other: 'Diğer'
+  };
+  const categories = ['Tümü', ...Array.from(new Set(projects.map(project => categoryMap[project.category] || project.category)))];
 
   const filteredProjects = projects.filter(project => {
     const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          project.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'Tümü' || project.category === selectedCategory;
+    const mappedCategory = categoryMap[project.category] || project.category;
+    const matchesCategory = selectedCategory === 'Tümü' || mappedCategory === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -255,7 +263,7 @@ const PortfolioManagement = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        {project.category}
+                        {categoryMap[project.category] || project.category}
                       </span>
                     </td>
                     {/* ...existing code... */}

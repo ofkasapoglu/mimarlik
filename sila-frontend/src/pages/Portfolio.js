@@ -12,11 +12,11 @@ const Portfolio = () => {
 
   const categories = [
     { id: 'all', name: 'Tümü' },
-    { id: 'Web', name: 'Kültür' },
-    { id: 'Mobile', name: 'Eğitim' },
-    { id: 'AI', name: 'Kentsel Tasarım' },
-    { id: 'Desktop', name: 'Dini' },
-    { id: 'Other', name: 'Diğer' }
+  { id: 'Web', name: 'Kültür' },
+  { id: 'Mobile', name: 'Eğitim' },
+  { id: 'AI', name: 'Kentsel Tasarım' },
+  { id: 'Desktop', name: 'Dini' },
+  { id: 'Other', name: 'Diğer' }
   ];
 
   useEffect(() => {
