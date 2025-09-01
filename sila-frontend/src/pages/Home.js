@@ -49,10 +49,11 @@ const Home = () => {
             <div className="p-8">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Merhaba, Ben Ceyhun Uzun</h2>
               <p className="text-gray-600 text-lg mb-4">
-                Mimar olarak, estetik ve işlevselliği bir araya getirerek yaşam alanlarını dönüştürüyorum.
-                Tasarımlarımda, kullanıcı deneyimini ön planda tutarken, çağdaş mimari yaklaşımları sürdürülebilir
-                çözümlerle harmanlıyorum. Konut, ofis, ticari yapı ve iç mekan projelerinde,
-                özgünlük ve detaylara verdiğim önemle fark yaratmayı hedefliyorum.
+                Mimarlık benim için yalnızca binalar inşa etmek değil,
+                 insanların hayatına dokunan hikâyeler tasarlamaktır. Mekânların
+                  kimliğini, çevresiyle kurduğu ilişkiyi ve kullanıcıların deneyimini
+                   önemsiyorum. Tasarımlarımda detaylara verdiğim önemle, farklılık yaratan
+                    ve iz bırakan projeler üretmeyi hedefliyorum
               </p>
             </div>
           </div>
