@@ -56,6 +56,31 @@ const PortfolioForm = () => {
     }
   };
 
+
+  // Cloudinary upload fonksiyonu
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const form = new FormData();
+    form.append('image', file);
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/upload`, form, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      const url = res.data.imageUrl;
+      setFormData(prev => ({
+        ...prev,
+        image: url, // Cloudinary URL'yi image alanına da ekle
+        images: prev.images ? prev.images + '\n' + url : url
+      }));
+      toast.success('Görsel Cloudinary\'ye yüklendi!');
+    } catch (err) {
+      toast.error('Görsel yüklenemedi!');
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
@@ -170,6 +195,15 @@ const PortfolioForm = () => {
 
           {/* Görseller */}
           <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Görsel Yükle (Cloudinary)
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="mb-2"
+            />
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Görsel URL'leri (her satıra bir URL)
             </label>

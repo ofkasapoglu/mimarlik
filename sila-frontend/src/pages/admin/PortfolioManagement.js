@@ -246,7 +246,7 @@ const PortfolioManagement = () => {
                   <tr key={project._id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <img
-                        src={project.image}
+                        src={project.image[0]}
                         alt={project.title}
                         className="h-16 w-16 object-cover rounded-lg shadow-sm"
                       />
