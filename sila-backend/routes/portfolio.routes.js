@@ -3,20 +3,24 @@ const router = express.Router();
 const Portfolio = require('../models/portfolio.model');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
+const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('../config/cloudinary');
+
+// Cloudinary storage ayarı
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'sila-projects', // Cloudinary klasörü
+    allowed_formats: ['jpg', 'png', 'jpeg'],
+  },
+});
+const upload = multer({ storage });
 
 // Tüm projeleri getir
 router.get('/', async (req, res) => {
   try {
     const projects = await Portfolio.find().sort({ createdAt: -1 });
-    console.log('Fetched projects:', projects.length);
-    projects.forEach(project => {
-      console.log('Project:', {
-        id: project._id,
-        title: project.title,
-        image: project.image,
-        category: project.category
-      });
-    });
     res.json(projects);
   } catch (error) {
     console.error('Get all projects error:', error);
@@ -28,30 +32,29 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const project = await Portfolio.findById(req.params.id);
-    if (!project) {
-      return res.status(404).json({ message: 'Proje bulunamadı' });
-    }
+    if (!project) return res.status(404).json({ message: 'Proje bulunamadı' });
     res.json(project);
   } catch (error) {
     console.error('Get project error:', error);
-    if (error.kind === 'ObjectId') {
-      return res.status(404).json({ message: 'Geçersiz proje ID\'si' });
-    }
     res.status(500).json({ message: 'Proje yüklenirken bir hata oluştu' });
   }
 });
 
-// Yeni proje ekle
-router.post('/', [auth, admin], async (req, res) => {
+// Yeni proje ekle ve resim yükle
+router.post('/', [auth, admin, upload.single('image')], async (req, res) => {
   try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'Dosya yüklenmedi veya form-data ile gönderilmedi' });
+    }
+
     const project = new Portfolio({
       title: req.body.title,
       description: req.body.description,
-      image: req.body.image,
+      image: req.file.path, // Cloudinary URL
       images: req.body.images || [],
-      technologies: req.body.technologies,
+      technologies: req.body.technologies || [],
       category: req.body.category,
-      featured: req.body.featured
+      featured: req.body.featured || false,
     });
 
     const newProject = await project.save();
@@ -62,17 +65,15 @@ router.post('/', [auth, admin], async (req, res) => {
   }
 });
 
-// Proje güncelle
-router.put('/:id', [auth, admin], async (req, res) => {
+// Proje güncelle ve resim yükle
+router.put('/:id', [auth, admin, upload.single('image')], async (req, res) => {
   try {
     const project = await Portfolio.findById(req.params.id);
-    if (!project) {
-      return res.status(404).json({ message: 'Proje bulunamadı' });
-    }
+    if (!project) return res.status(404).json({ message: 'Proje bulunamadı' });
 
     project.title = req.body.title || project.title;
     project.description = req.body.description || project.description;
-    project.image = req.body.image || project.image;
+    project.image = req.file ? req.file.path : project.image; // Yeni resim varsa değiştir
     project.technologies = req.body.technologies || project.technologies;
     project.images = req.body.images || project.images;
     project.category = req.body.category || project.category;
@@ -82,9 +83,6 @@ router.put('/:id', [auth, admin], async (req, res) => {
     res.json(updatedProject);
   } catch (error) {
     console.error('Update project error:', error);
-    if (error.kind === 'ObjectId') {
-      return res.status(404).json({ message: 'Geçersiz proje ID\'si' });
-    }
     res.status(400).json({ message: error.message });
   }
 });
@@ -93,19 +91,14 @@ router.put('/:id', [auth, admin], async (req, res) => {
 router.delete('/:id', [auth, admin], async (req, res) => {
   try {
     const project = await Portfolio.findById(req.params.id);
-    if (!project) {
-      return res.status(404).json({ message: 'Proje bulunamadı' });
-    }
+    if (!project) return res.status(404).json({ message: 'Proje bulunamadı' });
 
     await project.deleteOne();
     res.json({ message: 'Proje başarıyla silindi' });
   } catch (error) {
     console.error('Delete project error:', error);
-    if (error.kind === 'ObjectId') {
-      return res.status(404).json({ message: 'Geçersiz proje ID\'si' });
-    }
     res.status(500).json({ message: error.message });
   }
 });
 
-module.exports = router; 
+module.exports = router;
