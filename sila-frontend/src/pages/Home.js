@@ -53,7 +53,7 @@ const Home = () => {
                  insanların hayatına dokunan hikâyeler tasarlamaktır. Mekânların
                   kimliğini, çevresiyle kurduğu ilişkiyi ve kullanıcıların deneyimini
                    önemsiyorum. Tasarımlarımda detaylara verdiğim önemle, farklılık yaratan
-                    ve iz bırakan projeler üretmeyi hedefliyorum
+                    ve iz bırakan projeler üretmeyi hedefliyorum.
               </p>
             </div>
           </div>

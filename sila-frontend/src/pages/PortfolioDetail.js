@@ -19,6 +19,9 @@ const PortfolioDetail = () => {
   const [imagePreview, setImagePreview] = useState('');
   const [galleryUploading, setGalleryUploading] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(null); // number | null
+  // URL ile ekleme alanları
+  const [coverImageUrlInput, setCoverImageUrlInput] = useState('');
+  const [galleryImageUrlInput, setGalleryImageUrlInput] = useState('');
   const { id } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -132,6 +135,42 @@ const PortfolioDetail = () => {
     }
   };
 
+  // Kapak görselini URL ile ekle
+  const handleAddCoverUrl = () => {
+    const url = (coverImageUrlInput || '').trim();
+    if (!url) return;
+    try {
+      // Basit URL doğrulaması
+      const u = new URL(url);
+      if (!u.protocol.startsWith('http')) throw new Error('');
+      setProject((prev) => ({ ...prev, image: url }));
+      setImagePreview(url);
+      setSelectedFile(null);
+      setCoverImageUrlInput('');
+      toast.success('Kapak görseli URL ile eklendi');
+    } catch {
+      toast.error('Geçerli bir URL giriniz');
+    }
+  };
+
+  // Galeri görselini URL ile ekle
+  const handleAddGalleryUrl = () => {
+    const url = (galleryImageUrlInput || '').trim();
+    if (!url) return;
+    try {
+      const u = new URL(url);
+      if (!u.protocol.startsWith('http')) throw new Error('');
+      setProject((prev) => ({
+        ...prev,
+        images: [ ...(prev.images || []), url ]
+      }));
+      setGalleryImageUrlInput('');
+      toast.success('Galeri görseli URL ile eklendi');
+    } catch {
+      toast.error('Geçerli bir URL giriniz');
+    }
+  };
+
   const uploadImage = async (file) => {
     const formData = new FormData();
     formData.append('image', file);
@@ -175,8 +214,9 @@ const PortfolioDetail = () => {
     setLoading(true);
 
     try {
-      if (isCreateMode && !selectedFile) {
-        toast.error('Lütfen bir görsel dosyası seçin');
+      // Kapak görseli için: ya dosya seçili olmalı ya da URL girilmiş olmalı
+      if (isCreateMode && !selectedFile && !project.image) {
+        toast.error('Lütfen kapak görseli dosyası seçin veya URL girin');
         return;
       }
 
@@ -381,7 +421,7 @@ const PortfolioDetail = () => {
               />
             </div>
 
-            {/* Görsel Yükleme (sadece dosya) */}
+            {/* Görsel Yükleme / URL ile ekleme */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Kapak Görseli</label>
               <div>
@@ -394,6 +434,23 @@ const PortfolioDetail = () => {
                 <p className="mt-1 text-sm text-gray-500">
                   Maksimum dosya boyutu: 5MB. Desteklenen formatlar: JPG, PNG, GIF
                 </p>
+                {/* URL ile kapak ekleme */}
+                <div className="mt-3 flex gap-2">
+                  <input
+                    type="url"
+                    placeholder="Kapak görseli URL"
+                    value={coverImageUrlInput}
+                    onChange={(e) => setCoverImageUrlInput(e.target.value)}
+                    className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddCoverUrl}
+                    className="bg-green-600 text-white px-3 py-2 rounded hover:bg-green-700 text-sm"
+                  >
+                    URL ile ekle
+                  </button>
+                </div>
               </div>
               {/* Görsel Önizleme */}
               {imagePreview && (
@@ -417,7 +474,7 @@ const PortfolioDetail = () => {
               )}
             </div>
 
-            {/* Galeri Yükleme */}
+            {/* Galeri Yükleme / URL ile ekleme */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Galeri Görselleri</label>
               <input
@@ -429,6 +486,24 @@ const PortfolioDetail = () => {
                 className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 disabled:opacity-50"
               />
               <p className="mt-1 text-sm text-gray-500">Birden fazla görsel seçebilirsiniz (max ~5MB/ görsel)</p>
+
+              {/* URL ile galeri elemanı ekleme */}
+              <div className="mt-3 flex gap-2">
+                <input
+                  type="url"
+                  placeholder="Galeri görseli URL"
+                  value={galleryImageUrlInput}
+                  onChange={(e) => setGalleryImageUrlInput(e.target.value)}
+                  className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddGalleryUrl}
+                  className="bg-green-600 text-white px-3 py-2 rounded hover:bg-green-700 text-sm"
+                >
+                  URL ekle
+                </button>
+              </div>
 
               {Array.isArray(project.images) && project.images.length > 0 && (
                 <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">

@@ -57,6 +57,9 @@ const PortfolioForm = () => {
   };
 
 
+  // Görsel URL ekleme için state
+  const [imageUrlInput, setImageUrlInput] = useState('');
+
   // Cloudinary upload fonksiyonu
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -72,12 +75,24 @@ const PortfolioForm = () => {
       const url = res.data.imageUrl;
       setFormData(prev => ({
         ...prev,
-        image: url, // Cloudinary URL'yi image alanına da ekle
+        image: url,
         images: prev.images ? prev.images + '\n' + url : url
       }));
       toast.success('Görsel Cloudinary\'ye yüklendi!');
     } catch (err) {
       toast.error('Görsel yüklenemedi!');
+    }
+  };
+
+  // Manuel URL ekleme fonksiyonu
+  const handleAddImageUrl = () => {
+    if (imageUrlInput.trim()) {
+      setFormData(prev => ({
+        ...prev,
+        images: prev.images ? prev.images + '\n' + imageUrlInput.trim() : imageUrlInput.trim()
+      }));
+      setImageUrlInput('');
+      toast.success('Görsel URL eklendi!');
     }
   };
 
@@ -204,6 +219,22 @@ const PortfolioForm = () => {
               onChange={handleImageUpload}
               className="mb-2"
             />
+            <div className="flex gap-2 items-center mb-2">
+              <input
+                type="text"
+                placeholder="Görsel URL girin"
+                value={imageUrlInput}
+                onChange={e => setImageUrlInput(e.target.value)}
+                className="px-3 py-2 border border-gray-300 rounded-md flex-1"
+              />
+              <button
+                type="button"
+                onClick={handleAddImageUrl}
+                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+              >
+                URL Ekle
+              </button>
+            </div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Görsel URL'leri (her satıra bir URL)
             </label>
