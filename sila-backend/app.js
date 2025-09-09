@@ -10,7 +10,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ...local uploads servisi kaldırıldı, sadece Cloudinary kullanılacak...
+// Static: uploads klasörünü servis et
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
 app.use('/api/auth', require('./routes/auth.routes'));

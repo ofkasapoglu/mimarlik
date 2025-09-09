@@ -40,21 +40,35 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Yeni proje ekle ve resim yükle
+// Yardımcı: images/technologies alanlarını normalize et
+function normalizeStringOrArray(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) return value.filter(Boolean).map(v => String(v).trim()).filter(Boolean);
+  // String ise newline veya virgül ile ayrılmış olabilir
+  return String(value)
+    .split(/\r?\n|,/)
+    .map(v => v.trim())
+    .filter(Boolean);
+}
+
+// Yeni proje ekle (hem JSON URL'leri hem de dosya upload destekli)
 router.post('/', [auth, admin, upload.single('image')], async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({ message: 'Dosya yüklenmedi veya form-data ile gönderilmedi' });
-    }
+    const imageFromUpload = req.file ? req.file.path : undefined;
+    const imageFromBody = req.body.image ? String(req.body.image) : undefined;
+    const image = imageFromUpload || imageFromBody || '';
+
+    const images = normalizeStringOrArray(req.body.images);
+    const technologies = normalizeStringOrArray(req.body.technologies);
 
     const project = new Portfolio({
       title: req.body.title,
       description: req.body.description,
-      image: req.file.path, // Cloudinary URL
-      images: req.body.images || [],
-      technologies: req.body.technologies || [],
+      image,
+      images,
+      technologies,
       category: req.body.category,
-      featured: req.body.featured || false,
+      featured: req.body.featured === 'true' || req.body.featured === true,
     });
 
     const newProject = await project.save();
@@ -65,19 +79,26 @@ router.post('/', [auth, admin, upload.single('image')], async (req, res) => {
   }
 });
 
-// Proje güncelle ve resim yükle
+// Proje güncelle (hem JSON URL'leri hem de dosya upload destekli)
 router.put('/:id', [auth, admin, upload.single('image')], async (req, res) => {
   try {
     const project = await Portfolio.findById(req.params.id);
     if (!project) return res.status(404).json({ message: 'Proje bulunamadı' });
 
+    const imageFromUpload = req.file ? req.file.path : undefined;
+    const imageFromBody = req.body.image ? String(req.body.image) : undefined;
+
     project.title = req.body.title || project.title;
     project.description = req.body.description || project.description;
-    project.image = req.file ? req.file.path : project.image; // Yeni resim varsa değiştir
-    project.technologies = req.body.technologies || project.technologies;
-    project.images = req.body.images || project.images;
+    project.image = imageFromUpload || imageFromBody || project.image; // Yeni resim varsa değiştir
+    const technologies = normalizeStringOrArray(req.body.technologies);
+    if (technologies.length > 0) project.technologies = technologies;
+    const images = normalizeStringOrArray(req.body.images);
+    if (images.length > 0) project.images = images;
     project.category = req.body.category || project.category;
-    project.featured = req.body.featured !== undefined ? req.body.featured : project.featured;
+    if (req.body.featured !== undefined) {
+      project.featured = req.body.featured === 'true' || req.body.featured === true;
+    }
 
     const updatedProject = await project.save();
     res.json(updatedProject);

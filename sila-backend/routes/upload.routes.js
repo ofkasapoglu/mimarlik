@@ -15,19 +15,28 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
+// Test endpoint'i
+router.get('/test', (req, res) => {
+  res.json({ message: 'Upload route is working!' });
+});
+
+// Auth test endpoint'i
+router.get('/auth-test', authMiddleware, (req, res) => {
+  res.json({ message: 'Auth is working!', user: req.user.username });
+});
+
 // Dosya yükleme endpoint'i - sadece auth middleware kullan
 router.post('/', authMiddleware, upload.single('image'), (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: 'Dosya yüklenmedi' });
     }
-    // Cloudinary'den dönen bilgiler
+    // Cloudinary URL
+    const imageUrl = req.file.path;
     res.json({
-      message: 'Dosya başarıyla Cloudinary\'ye yüklendi',
-      imageUrl: req.file.url, // Cloudinary'nin gerçek URL'si
-      public_id: req.file.filename,
-      format: req.file.format,
-      folder: 'sila-projects',
+      message: 'Dosya başarıyla yüklendi',
+      imageUrl: imageUrl,
+      public_id: req.file.filename
     });
   } catch (error) {
     console.error('Upload error:', error);
